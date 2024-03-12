@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/MicaelliMedeiros/micaellimedeiros/master/image/computer-illustration.png" alt="ilustração de um computador" min-width="400px" max-width="400px" width="400px" align="right">
 
 <p align="left"> 
-  Olá leitor(a), aqui está o fruto de nosso trabalho de Fábrica de Software, o projeto se chama <strong>Team Composer</strong> e ajudará os professores na hora de escolher os times para essa disciplina no futuro, obrigado pela atenção e veja com carinho nosso projeto.<br>
+  Olá leitor(a), aqui está o fruto de nosso trabalho de Fábrica de Software, o projeto se chama <strong>Team Composer</strong> e ajudará os professores na hora de escolher os times para essa disciplina no futuro, obrigado pela atenção e veja com carinho nosso projeto.<br><br>
   Atualmente contamos com um time de 1 UX/UI, 4 Front End's, 3 Back End's, 1 QA e 1 PM.
 </p>
 
