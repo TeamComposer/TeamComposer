@@ -14,7 +14,7 @@
 </p>
 
 <p align="left">
-  💌 Contato a ser sugerido. ⤵️
+  💌 Contatos abaixo ⤵️
 </p>
 
 <p align="left">
