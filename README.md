@@ -6,11 +6,11 @@
 </p>
 
 <p align="left">
-  🦄 Linguagens: **A escolher**
+  🦄 Linguagens e componentes: YARN, AXIOS, WATERMELON DB, React Native, NodeJS, Mongoose
 </p>
 
 <p align="left">
-  💼 Ferramentas: **Jira, VScode, Discord, GitHub**
+  💼 Ferramentas: **Jira, VScode, Discord, GitHub, MongoDB**
 </p>
 
 <p align="left">
