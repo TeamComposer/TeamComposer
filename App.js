@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 import Login from "./src/pages/Login";
+import SignUp from "./src/pages/Signup";
 import MyTabBar from './src/routes';
 
 
@@ -16,6 +17,7 @@ export default function App() {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Home" component={MyTabBar} />
+      <Stack.Screen name="SignUp" component={SignUp} />
     </Stack.Navigator>
   </NavigationContainer>
   );

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HomeScreen from "../pages/HomeScreen";
+import SignUp from "../pages/Signup";
 
 function SettingsScreen() {
   return (
@@ -14,9 +15,15 @@ function SettingsScreen() {
 
 function MyTabBar({ state, descriptors, navigation }) {
   return (
-    <SafeAreaView style={{ flexDirection: "row" }}>
+    <SafeAreaView
+      style={{
+        flexDirection: "row",
+        width: "100%",
+      }}
+    >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
+        console.log(options);
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
@@ -53,10 +60,23 @@ function MyTabBar({ state, descriptors, navigation }) {
             onPress={onPress}
             onLongPress={onLongPress}
             style={{ flex: 1 }}
+            key={route.key}
           >
-            <Text style={{ color: isFocused ? "#673ab7" : "#222" }}>
-              {label}
-            </Text>
+            <View
+              style={{
+                backgroundColor: isFocused ? "#2C4060" : null,
+                alignItems: "center",
+                justifyContent: "center",
+                height: 40,
+                borderRadius: 20,
+                marginLeft: 2,
+                marginRight: 2,
+              }}
+            >
+              <Text style={{ color: isFocused ? "white" : "#2C4060" }}>
+                {label}
+              </Text>
+            </View>
           </TouchableOpacity>
         );
       })}
@@ -73,8 +93,21 @@ export default function TabBar() {
       initialRouteName="Home"
       screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{ title: "Settings" }}
+      />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ title: "Home" }}
+      />
+      <Tab.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{ title: "SignUp" }}
+      />
     </Tab.Navigator>
   );
 }
