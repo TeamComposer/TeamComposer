@@ -13,7 +13,7 @@ export const ContainerOptions = styled.View`
     padding-right: 16px;
     `;
 
-export const Options = styled.View`
+export const Options = styled.TouchableOpacity`
     width: 150px;
     height: 150px;
     padding-left: 10px;

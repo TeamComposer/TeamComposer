@@ -21,7 +21,7 @@ function Login({ navigation }) {
     //criar validação de login
 
     if (true) {
-      navigation.navigate("Home");
+      navigation.navigate("HomeScreen");
     }
   }
 

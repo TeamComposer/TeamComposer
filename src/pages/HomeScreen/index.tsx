@@ -3,37 +3,37 @@ import { FlatList, Text, View } from "react-native";
 
 import { Container, ContainerOptions, Options } from "./styles";
 
-function HomeScreen() {
+function HomeScreen({ navigation }) {
   const optionsList = [
     {
       id: 1,
       title: "Front-End",
-      goBack: "ScreenName",
+      screen: "DetailsFrontEnd",
     },
     {
       id: 2,
       title: "Back-End",
-      goBack: "ScreenName",
+      screen: "DetailsBackEnd",
     },
     {
       id: 3,
       title: "QA",
-      goBack: "ScreenName",
+      screen: "DetailsQA",
     },
     {
       id: 4,
       title: "FullStack",
-      goBack: "ScreenName",
+      screen: "DetailsFullStack",
     },
     {
       id: 5,
       title: "UX/UI",
-      goBack: "ScreenName",
+      screen: "DetailsUxUi",
     },
     {
       id: 6,
       title: "PM",
-      goBack: "ScreenName",
+      screen: "DetailsPM",
     },
   ];
 
@@ -50,7 +50,7 @@ function HomeScreen() {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <>
-                <Options>
+                <Options onPress={() => navigation.navigate(`${item.screen}`)}>
                   <Text style={{color: 'white', fontSize: '26px', fontWeight: 'bold'}}>{item?.title}</Text>
                 </Options>
               </>
