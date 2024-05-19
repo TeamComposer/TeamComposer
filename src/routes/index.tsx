@@ -1,6 +1,7 @@
 import * as React from "react";
 import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeScreen from "../pages/HomeScreen";
 import SignUp from "../pages/Signup";
@@ -23,6 +24,7 @@ function MyTabBar({ state, descriptors, navigation }) {
     >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
+        
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
@@ -50,6 +52,8 @@ function MyTabBar({ state, descriptors, navigation }) {
           });
         };
 
+        const Icon = options.tabBarIcon;
+
         return (
           <TouchableOpacity
             accessibilityRole="button"
@@ -72,9 +76,10 @@ function MyTabBar({ state, descriptors, navigation }) {
                 marginRight: 2,
               }}
             >
-              <Text style={{ color: isFocused ? "white" : "#2C4060" }}>
+              {Icon && <Icon color={isFocused ? "white" : "#2C4060"} size={24} />}
+              {/* <Text style={{ color: isFocused ? "white" : "#2C4060" }}>
                 {label}
-              </Text>
+              </Text> */}
             </View>
           </TouchableOpacity>
         );
@@ -95,17 +100,35 @@ export default function TabBar() {
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
-        options={{ title: "Settings" }}
+        options={{
+          title: "Settings",
+          tabBarLabel: 'Settings',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="cog" color={color} size={size} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Home"
         component={HomeScreen}
-        options={{ title: "Home" }}
+        options={{
+          title: "Home",
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" color={color} size={size} />
+          ),
+        }}
       />
       <Tab.Screen
         name="SignUp"
         component={SignUp}
-        options={{ title: "SignUp" }}
+        options={{
+          title: "SignUp",
+          tabBarLabel: 'SignUp',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-add" color={color} size={size} />
+          ),
+        }}
       />
     </Tab.Navigator>
   );

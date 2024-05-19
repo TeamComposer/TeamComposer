@@ -1,20 +1,34 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 
 import { Container, TextTitle, SubTitle, TextOptions, Input } from "./styles";
 import Gradient from "../../components/Gradient";
 import CustomDropDown from "../../components/CustomDropDown";
 import PrimaryButton from "../../components/PrimaryButton";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
-function DetailsFrontEnd() {
+function DetailsFrontEnd({ navigation }) {
   return (
     <>
       <Container>
         {/* <Gradient /> */}
-        <ScrollView >
-          <View style={{ alignItems: "center", marginTop: 8 }}>
-            <TextTitle>Front-End</TextTitle>
-          </View>
+        <ScrollView>
+          <TouchableOpacity
+            style={{
+              alignItems: "center",
+              marginTop: 8,
+              flexDirection: "row",
+              marginLeft: 16,
+            }}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Ionicons name="arrow-back" size={32} color={"white"} />
+            <TextTitle style={{ marginLeft: 16, marginBottom: 0 }}>
+              Front-End
+            </TextTitle>
+          </TouchableOpacity>
 
           <View style={{ padding: 16 }}>
             <SubTitle>
@@ -32,7 +46,13 @@ function DetailsFrontEnd() {
 
             <TextTitle>Requisitos mínimos:</TextTitle>
 
-            <View style={{ paddingBottom: 12, paddingHorizontal: 12, marginBottom: 8 }}>
+            <View
+              style={{
+                paddingBottom: 12,
+                paddingHorizontal: 12,
+                marginBottom: 8,
+              }}
+            >
               <TextOptions>
                 º Conhecimento em HTML, CSS e JavaScript Familiaridade com
                 design de
@@ -49,7 +69,7 @@ function DetailsFrontEnd() {
                 º frameworks populares (ex: React, Angular, Vue.js) Mentalidade
                 de
               </TextOptions>
-              <TextOptions >
+              <TextOptions>
                 º aprendizado contínuo Boas habilidades de comunicação
               </TextOptions>
             </View>
@@ -63,7 +83,7 @@ function DetailsFrontEnd() {
             <CustomDropDown placeholder={"ANGULAR"} />
 
             <TextTitle>Possui mais alguma habilidade?</TextTitle>
-            <Input placeholder="Descreva-as" multiline={true}/>
+            <Input placeholder="Descreva-as" multiline={true} />
 
             <PrimaryButton title={"Me candidatar"} fn={() => {}} />
           </View>

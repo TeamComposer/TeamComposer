@@ -1,20 +1,34 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 
 import { Container, TextTitle, SubTitle, TextOptions, Input } from "./styles";
 import Gradient from "../../components/Gradient";
 import CustomDropDown from "../../components/CustomDropDown";
 import PrimaryButton from "../../components/PrimaryButton";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-function DetailsBackEnd() {
+function DetailsBackEnd({ navigation }) {
   return (
     <>
       <Container>
         {/* <Gradient /> */}
         <ScrollView>
-          <View style={{ alignItems: "center", marginTop: 8 }}>
-            <TextTitle>Back-End</TextTitle>
-          </View>
+        <TouchableOpacity
+            style={{
+              alignItems: "center",
+              marginTop: 8,
+              flexDirection: "row",
+              marginLeft: 16,
+            }}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Ionicons name="arrow-back" size={32} color={"white"} />
+            <TextTitle style={{ marginLeft: 16, marginBottom: 0 }}>
+              Back-End
+            </TextTitle>
+          </TouchableOpacity>
 
           <View style={{ padding: 16 }}>
             <SubTitle>
