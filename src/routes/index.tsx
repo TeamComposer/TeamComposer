@@ -10,7 +10,6 @@ import Profile from "../pages/Profile";
 function SettingsScreen() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Settings!</Text>
     </View>
   );
 }
@@ -105,7 +104,8 @@ export default function TabBar() {
           title: "Settings",
           tabBarLabel: 'Settings',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cog" color={color} size={size} />
+            <Ionicons name="home" color={color} size={size} />
+
           ),
         }}
       />
@@ -116,7 +116,7 @@ export default function TabBar() {
           title: "Home",
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" color={color} size={size} />
+            <Ionicons name="add" color={color} size={size} />
           ),
         }}
       />
