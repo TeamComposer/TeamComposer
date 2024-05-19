@@ -5,6 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeScreen from "../pages/HomeScreen";
 import SignUp from "../pages/Signup";
+import Profile from "../pages/Profile";
 
 function SettingsScreen() {
   return (
@@ -120,13 +121,13 @@ export default function TabBar() {
         }}
       />
       <Tab.Screen
-        name="SignUp"
-        component={SignUp}
+        name="Profile"
+        component={Profile}
         options={{
-          title: "SignUp",
-          tabBarLabel: 'SignUp',
+          title: "Profile",
+          tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-add" color={color} size={size} />
+            <Ionicons name="person-circle" color={color} size={size} />
           ),
         }}
       />
