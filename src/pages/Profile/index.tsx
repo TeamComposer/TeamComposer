@@ -2,7 +2,7 @@ import React from "react";
 
 function Profile({ navigation }) {
   return (<>
-  {/* Criar tela */}
+  {/* Criar tela teste */}
   </>
   );
 }
