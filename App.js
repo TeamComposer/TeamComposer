@@ -13,6 +13,7 @@ import DetailsQA from './src/pages/Details/QA';
 import DetailsFullStack from './src/pages/Details/FullStack';
 import DetailsUxUi from './src/pages/Details/UxUi';
 import DetailsPM from './src/pages/Details/PM';
+import ProjectsDetails from './src/pages/ProjectsDetails';
 
 
 const Stack = createNativeStackNavigator();
@@ -30,6 +31,7 @@ export default function App() {
         <Stack.Screen name="DetailsFullStack" component={DetailsFullStack} />
         <Stack.Screen name="DetailsUxUi" component={DetailsUxUi} />
         <Stack.Screen name="DetailsPM" component={DetailsPM} />
+        <Stack.Screen name="ProjectsDetails" component={ProjectsDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );
