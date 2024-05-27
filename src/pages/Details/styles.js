@@ -35,7 +35,6 @@ export const ContainerOptions = styled.View`
 export const Input = styled.TextInput`
     background-color: #D9D9D9;
     height: 200px;
-    border-radius: 20px;
     margin-bottom: 8px;
     padding: 12px;
 `;

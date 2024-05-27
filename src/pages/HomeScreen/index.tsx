@@ -40,7 +40,7 @@ function HomeScreen({ navigation }) {
   return (
     <>
       <Container>
-        <Text style={{ fontSize: 24 }}>Escolha sua função</Text>
+        <Text style={{  }}>Escolha sua função</Text>
         <ContainerOptions>
           <FlatList
             style={{ margin: 5 }}
@@ -51,7 +51,7 @@ function HomeScreen({ navigation }) {
             renderItem={({ item }) => (
               <>
                 <Options onPress={() => navigation.navigate(`${item.screen}`)}>
-                  <Text style={{color: 'white', fontSize: '26px', fontWeight: 'bold'}}>{item?.title}</Text>
+                  <Text style={{color: 'white',  fontWeight: 'bold'}}>{item?.title}</Text>
                 </Options>
               </>
             )}

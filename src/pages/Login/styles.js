@@ -10,7 +10,6 @@ export const ContainerInputs = styled.View`
   background-color: #f6f6f6;
   width: 100%;
   height: 70%;
-  border-top-left-radius: 80px;
   padding: 8px;
   align-items: center;
   justify-content: center;

@@ -23,8 +23,8 @@ const CustomDropDown = ({ data = [], placeholder }) => {
       data={dataLocal}
       search={false}
       placeholder={placeholder}
-      inputStyles={{ color: "white", fontWeight: "bold", fontSize: 16 }}
-      dropdownTextStyles={{ color: "white", fontWeight: "bold", fontSize: 16 }}
+      inputStyles={{ color: "white", fontWeight: "bold" }}
+      dropdownTextStyles={{ color: "white", fontWeight: "bold" }}
       dropdownStyles={{ backgroundColor: "#2C4060" }}
     />
    </View>

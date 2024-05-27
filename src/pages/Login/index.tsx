@@ -47,7 +47,7 @@ function Login({ navigation }) {
 
       <ContainerInputs>
         <ContainerInputsCenter>
-          <Text style={{ fontSize: 36 }}>Login</Text>
+          <Text style={{  }}>Login</Text>
           <View style={{ width: "100%" }}>
             <Input
               ref={emailRef}
@@ -68,7 +68,7 @@ function Login({ navigation }) {
           </View>
 
           <TouchableOpacity onPress={goToSignUp}>
-            <Text style={{ fontSize: 16 }}>
+            <Text style={{  }}>
               Não possuí uma conta? Cadastre-se!
             </Text>
           </TouchableOpacity>

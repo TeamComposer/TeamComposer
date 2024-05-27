@@ -20,7 +20,7 @@ function SignUp({ navigation }) {
     //criar validação de login
 
     if (true) {
-      navigation.navigate("Home");
+      navigation.navigate("HomeScreen");
     }
   }
 
@@ -35,7 +35,7 @@ function SignUp({ navigation }) {
 
       <SafeAreaView style={{ height: '30%',width: "100%", flexDirection: "row", alignItems: "center"}}>
           {/* <Icon name="arrow-back" /> */}
-          <Text style={{ fontSize: 36, color: "white" }}>Cadastre-se</Text>
+          <Text style={{ color: "white" }}>Cadastre-se</Text>
       </SafeAreaView>
 
       <ContainerInputs>
@@ -81,7 +81,7 @@ function SignUp({ navigation }) {
           </View>
 
           <TouchableOpacity onPress={goToSignIn}>
-            <Text style={{ fontSize: 16 }}>
+            <Text style={{  }}>
               Já possuí uma conta? Faça login!
             </Text>
           </TouchableOpacity>

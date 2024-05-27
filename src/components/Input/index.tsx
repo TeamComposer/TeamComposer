@@ -6,7 +6,7 @@ const Input = React.forwardRef(({ titleText, placeHolder, keyboardType }, ref) =
   return (
     <>
       <Container onPress={() => ref?.current?.focus()}>
-        <Text style={{fontSize: 16}}>{titleText}</Text>
+        <Text >{titleText}</Text>
         <TextInput
           ref={ref}
           placeholder={placeHolder}
