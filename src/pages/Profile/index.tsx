@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 
 function Profile({ navigation }) {
-  //teste
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
