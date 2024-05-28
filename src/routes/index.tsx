@@ -6,13 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import HomeScreen from "../pages/HomeScreen";
 import SignUp from "../pages/Signup";
 import Profile from "../pages/Profile";
-
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    </View>
-  );
-}
+import ProjectsDetails from "../pages/ProjectsDetails";
 
 function MyTabBar({ state, descriptors, navigation }) {
   return (
@@ -97,11 +91,11 @@ export default function TabBar() {
       screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}
     >
       <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
+        name="ProjectsDetails"
+        component={ProjectsDetails}
         options={{
-          title: "Settings",
-          tabBarLabel: 'Settings',
+          title: "ProjectsDetails",
+          tabBarLabel: 'ProjectsDetails',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
 
