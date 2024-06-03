@@ -39,7 +39,7 @@ function Profile({ navigation }) {
             source={{ uri: 'https://freelogopng.com/images/all_img/1656996409linkedin-symbol.png' }}
           />
         </View>
-        <TouchableOpacity style={styles.logoutButton}>
+        <TouchableOpacity style={styles.logoutButton} onPress={() => {   navigation.navigate("Login");}}>
           <Text style={styles.logoutText}>Sair</Text>
         </TouchableOpacity>
       </View>

@@ -21,5 +21,6 @@ export const Options = styled.TouchableOpacity`
     background-color: #2C4060;
     align-items: center;
     justify-content: center;
+    border-radius: 20px;
 `;
 

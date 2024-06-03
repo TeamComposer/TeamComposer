@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 
-import { Container, TextTitle, SubTitle, TextOptions, Input } from "./styles";
+import { Container, TextTitle, SubTitle, TextOptions, Input,  ImageTop } from "./styles";
 import Gradient from "../../components/Gradient";
 import CustomDropDown from "../../components/CustomDropDown";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -29,6 +29,12 @@ function DetailsUxUi({ navigation }) {
               Ux/Ui
             </TextTitle>
           </TouchableOpacity>
+
+          <ImageTop
+            source={{
+              uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEJnc4GsP8tpwxfJawcN9nee5z4n2T43-T5Q&s"
+            }}
+          />
 
           <View style={{ padding: 16 }}>
             <SubTitle>

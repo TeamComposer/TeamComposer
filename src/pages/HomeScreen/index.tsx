@@ -40,18 +40,29 @@ function HomeScreen({ navigation }) {
   return (
     <>
       <Container>
-        <Text style={{  }}>Escolha sua função</Text>
+        <Text style={{ fontSize: 24 }}>Escolha sua função</Text>
         <ContainerOptions>
           <FlatList
-            style={{ margin: 5 }}
-            columnWrapperStyle={{ flex: 1, justifyContent: "space-around", marginBottom: 20 }}
+            columnWrapperStyle={{
+              flex: 1,
+              justifyContent: "space-around",
+              marginBottom: 20,
+            }}
             data={optionsList}
             numColumns={2}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <>
                 <Options onPress={() => navigation.navigate(`${item.screen}`)}>
-                  <Text style={{color: 'white',  fontWeight: 'bold'}}>{item?.title}</Text>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: "26px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {item?.title}
+                  </Text>
                 </Options>
               </>
             )}

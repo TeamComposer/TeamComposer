@@ -65,6 +65,7 @@ function MyTabBar({ state, descriptors, navigation }) {
                 alignItems: "center",
                 justifyContent: "center",
                 height: 40,
+                borderRadius: 20,
                 marginLeft: 2,
                 marginRight: 2,
               }}

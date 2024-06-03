@@ -9,6 +9,7 @@ background-color: #FFFFFF;
 marginBottom: 8px;
 justify-content: space-around;
 padding: 8px;
+border-radius: 20% 0% 20% 20%;
 `
 
 export const TextInput = styled.TextInput`

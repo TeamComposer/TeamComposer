@@ -11,6 +11,7 @@ export const ContainerInputs = styled.View`
   width: 100%;
   height: 70%;
   padding: 8px;
+  border-top-left-radius: 80px;
   align-items: center;
   justify-content: center;
 `;
@@ -22,3 +23,10 @@ export const ContainerInputsCenter = styled.View`
   height: 100%;
 `;
 
+export const Logo = styled.Image`
+  margin-top: -150px;
+  max-width: 100%;
+  min-width: 80px;
+  max-height: 150px;
+  min-height: 80px;
+`;

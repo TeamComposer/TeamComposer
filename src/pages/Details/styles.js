@@ -37,4 +37,15 @@ export const Input = styled.TextInput`
     height: 200px;
     margin-bottom: 8px;
     padding: 12px;
+    border-radius: 20px;
 `;
+
+export const ImageTop = styled.Image`
+border-radius: 10px;
+width: 95%;
+height: 200px;
+margin-top: 16px;
+margin-bottom: 16px;
+margin-left: auto;
+margin-right: auto;
+`

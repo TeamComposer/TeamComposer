@@ -1,7 +1,14 @@
 import React from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 
-import { Container, TextTitle, SubTitle, TextOptions, Input } from "./styles";
+import {
+  Container,
+  TextTitle,
+  SubTitle,
+  TextOptions,
+  Input,
+  ImageTop,
+} from "./styles";
 import Gradient from "../../components/Gradient";
 import CustomDropDown from "../../components/CustomDropDown";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -29,6 +36,12 @@ function DetailsFrontEnd({ navigation }) {
               Front-End
             </TextTitle>
           </TouchableOpacity>
+
+          <ImageTop
+            source={{
+              uri: "https://miro.medium.com/v2/resize:fit:1200/1*2xsLeLNqKwIoGOQlw8O6Ug.png",
+            }}
+          />
 
           <View style={{ padding: 16 }}>
             <SubTitle>

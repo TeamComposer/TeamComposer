@@ -29,66 +29,76 @@ function SignUp({ navigation }) {
   }
 
   return (
-   <>
-    <Container>
-      <Gradient />
+    <>
+      <Container>
+        <Gradient />
 
-      <SafeAreaView style={{ height: '30%',width: "100%", flexDirection: "row", alignItems: "center"}}>
+        <SafeAreaView
+          style={{
+            height: "30%",
+            width: "100%",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
           {/* <Icon name="arrow-back" /> */}
-          <Text style={{ color: "white" }}>Cadastre-se</Text>
-      </SafeAreaView>
+          <Text style={{ fontSize: 36, color: "white" }}>Cadastre-se</Text>
+        </SafeAreaView>
 
-      <ContainerInputs>
-        <ContainerInputsCenter>
-          <View style={{ width: "100%" }}>
-            <Input
-              ref={name}
-              titleText="Primeiro nome"
-              placeHolder="Nivaldo"
-              keyboardType="email-address"
-              s
-            />
-            <Input
-              ref={surname}
-              titleText="Sobrenome"
-              placeHolder="Batista "
-              keyboardType="email-address"
-              s
-            />
+        <ContainerInputs>
+          <ContainerInputsCenter>
+            <View style={{ width: "100%" }}>
+              <Input
+                ref={name}
+                titleText="Primeiro nome"
+                placeHolder="Nivaldo"
+                keyboardType="email-address"
+                s
+              />
+              <Input
+                ref={surname}
+                titleText="Sobrenome"
+                placeHolder="Batista "
+                keyboardType="email-address"
+                s
+              />
 
-            <Input
-              ref={emailRef}
-              titleText="Email"
-              placeHolder="aluno@alunos.utfpr.edu.br"
-              keyboardType="email-address"
-              s
-            />
-            <Input
-              ref={passwordRef}
-              titleText="Crie sua senha"
-              placeHolder="ººººººº"
-              keyboardType="password"
-            />
+              <Input
+                ref={emailRef}
+                titleText="Email"
+                placeHolder="aluno@alunos.utfpr.edu.br"
+                keyboardType="email-address"
+                s
+              />
+              <Input
+                ref={passwordRef}
+                titleText="Crie sua senha"
+                placeHolder="ººººººº"
+                keyboardType="password"
+              />
 
-            <Input
-              ref={passwordConfirmRef}
-              titleText="Confirme a senha"
-              placeHolder="ººººººº"
-              keyboardType="password"
-            />
+              <Input
+                ref={passwordConfirmRef}
+                titleText="Confirme a senha"
+                placeHolder="ººººººº"
+                keyboardType="password"
+              />
 
-            <PrimaryButton title={"Cadastre-se"} fn={() => validateFields()} />
-          </View>
+              <PrimaryButton
+                title={"Cadastre-se"}
+                fn={() => validateFields()}
+              />
+            </View>
 
-          <TouchableOpacity onPress={goToSignIn}>
-            <Text style={{  }}>
-              Já possuí uma conta? Faça login!
-            </Text>
-          </TouchableOpacity>
-        </ContainerInputsCenter>
-      </ContainerInputs>
-    </Container>
-   </>
+            <TouchableOpacity onPress={goToSignIn}>
+              <Text style={{ fontSize: 16 }}>
+                Já possuí uma conta? Faça login!
+              </Text>
+            </TouchableOpacity>
+          </ContainerInputsCenter>
+        </ContainerInputs>
+      </Container>
+    </>
   );
 }
 
