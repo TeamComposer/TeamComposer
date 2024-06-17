@@ -50,38 +50,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  nameContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
   name: {
-    top: 70,
-    right: 90,
-    fontSize: 28,
+    top: 225,
+    right: 140,
+    fontSize: 20,
     color: COLORS.white,
     fontWeight: 'bold',
   },
-  emoji: {
-    fontSize: 24,
-  },
   profession: {
-    top: 65,
-    right: 110,
-    fontSize: 18,
+    top: 220,
+    right: 120,
+    fontSize: 16,
     color: COLORS.white,
     marginBottom: 5,
   },
   bullet: {
     fontSize: 18,
     color: COLORS.white,
-  },
-  stars: {
-    top: 170,
-    right: 30,
-    flexDirection: 'row',
-    marginHorizontal: 5,
-    marginTop: 2,
   },
   menuButton: {
     position: 'absolute',
@@ -90,39 +75,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
   },
-  body: {
-    backgroundColor: COLORS.blueBody,
-    padding: 15,
-    borderRadius: 25,
-    marginHorizontal: 1,
-    marginBottom: 0,
-  },
-  description: {
-    fontSize: 14,
-    color: COLORS.black,
-    textAlign: 'justify',
-    lineHeight: 18,
-  },
   footer: {
     width: '100%',
     alignItems: 'center',
     paddingBottom: 5,
-  },
-  socialContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '75%',
-    marginTop: 10,
-  },
-  socialButton: {
-    padding: 10,
-    borderRadius: 50,
-    marginHorizontal: 10,
-  },
-  socialIcon: {
-    width: 40,
-    height: 40,
-    resizeMode: 'contain',
   },
 });
 

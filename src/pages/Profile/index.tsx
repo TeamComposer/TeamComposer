@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-
 import {
   Text,
   View,
@@ -8,7 +7,7 @@ import {
   ScrollView,
   ImageBackground,
 } from "react-native";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons"; // Importando o ícone
+import { MaterialIcons } from "@expo/vector-icons";
 import styles from "./styles";
 import { Context as UserContext } from "../../context/userContext";
 
@@ -34,7 +33,12 @@ const Profile = () => {
           style={styles.profileImage}
         />
         <View style={styles.profileDetails}>
-        
+          <Text style={styles.name}>
+            {infoUser.primeiroNome + " " + infoUser.sobrenome}{" "}
+          </Text>
+          <Text style={styles.profession}>
+            <Text style={styles.bullet}>• </Text>{stateUser.team?.nome ? stateUser.team.nome : 'Sem time'}
+          </Text>
         </View>
         <TouchableOpacity
           style={styles.menuButton}
@@ -44,67 +48,6 @@ const Profile = () => {
         >
           <MaterialIcons name="more-vert" size={30} color="white" />
         </TouchableOpacity>
-      </View>
-      <View style={styles.nameContainer}>
-        <Text style={styles.name}>
-          {infoUser.primeiroNome + " " + infoUser.sobrenome}{" "}
-        </Text>
-        <Text style={styles.profession}>
-          <Text style={styles.bullet}>• </Text>{stateUser.team?.nome ? stateUser.team.nome : 'Sem time'}
-        </Text>
-      </View>
-      <View style={styles.footer}>
-    
-        <View style={styles.socialContainer}>
-          <TouchableOpacity
-            style={styles.socialButton}
-            accessible
-            accessibilityLabel="Discord"
-          >
-            <Image
-              source={{
-                uri: "https://freelogopng.com/images/all_img/1691730813discord-icon-png.png",
-              }}
-              style={styles.socialIcon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.socialButton}
-            accessible
-            accessibilityLabel="WhatsApp"
-          >
-            <Image
-              source={{
-                uri: "https://freelogopng.com/images/all_img/1661938251whatsapp-logo-png.png",
-              }}
-              style={styles.socialIcon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.socialButton}
-            accessible
-            accessibilityLabel="Instagram"
-          >
-            <Image
-              source={{
-                uri: "https://freelogopng.com/images/all_img/1658587303instagram-png.png",
-              }}
-              style={styles.socialIcon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.socialButton}
-            accessible
-            accessibilityLabel="LinkedIn"
-          >
-            <Image
-              source={{
-                uri: "https://freelogopng.com/images/all_img/1656996409linkedin-symbol.png",
-              }}
-              style={styles.socialIcon}
-            />
-          </TouchableOpacity>
-        </View>
       </View>
     </ScrollView>
   );

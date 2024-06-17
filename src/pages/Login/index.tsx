@@ -24,8 +24,8 @@ import useApi from "../../hooks/useApi";
 import { Context as UserContext } from "../../context/userContext";
 
 function Login({ navigation }) {
-  const [email, setEmail] = useState("guib@alunos.utfpr.edu.br");
-  const [password, setPassword] = useState("12345");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const emailRef = useRef<TextInput>();
