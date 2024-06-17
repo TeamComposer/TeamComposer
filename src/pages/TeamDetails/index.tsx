@@ -28,28 +28,29 @@ function TeamDetails({ navigation }) {
 
   const route = useRoute();
   const { team } = route.params;
-  const [teams, setTeams] = useState([]);
+  const [membros, setMembros] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showInput, setShowInput] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
-    // getMembros();
+    setRefreshing(true);
+    getMembros();
+    setRefreshing(false);
   }, []);
 
   const apiCall = useApi({
     method: "GET",
-    url: "/teams",
+    url: `/teams/${team._id}`,
   });
 
   async function getMembros() {
     try {
       setLoading(true);
-      const response = await apiCall({});
-
+      const response = await apiCall();
       if (response.status === 200) {
-        setTeams(response.data);
+        setMembros(response.data.membros);
         setError(false);
       } else {
         setError(true);
@@ -62,6 +63,20 @@ function TeamDetails({ navigation }) {
       Alert.alert("Atenção", e);
     } finally {
       setLoading(false);
+    }
+  }
+
+  function returnSenioridade(nivel) {
+    if (nivel === 0) {
+      return "Aprendiz";
+    } else if (nivel === 1) {
+      return "Júnior";
+    } else if (nivel === 2) {
+      return "Pleno";
+    } else if (nivel === 3) {
+      return "Senior";
+    } else {
+      return "Aprendiz";
     }
   }
 
@@ -95,14 +110,14 @@ function TeamDetails({ navigation }) {
               </View>
 
               <FlatList
-                data={team.membros}
+                data={membros}
                 refreshControl={
                   <RefreshControl
                     refreshing={refreshing}
                     onRefresh={onRefresh}
                   />
                 }
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item._id}
                 style={{
                   marginBottom: 120,
                 }}
@@ -116,7 +131,21 @@ function TeamDetails({ navigation }) {
                           fontWeight: "bold",
                         }}
                       >
-                        {item?._id}
+                        {item?.aluno.userId.primeiroNome +
+                          " " +
+                          item?.aluno.userId.sobrenome}
+                      </Text>
+
+                      <Text
+                        style={{
+                          color: "white",
+                          fontSize: "16px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {item?.aluno.funcao +
+                          " - " +
+                          returnSenioridade(item?.aluno.nivel)}
                       </Text>
                     </OptionsProfessor>
                   </>
