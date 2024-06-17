@@ -581,7 +581,7 @@ function HomeScreen({ navigation }) {
         </>
       );
   }
-  
+
   function renderProfessorScreen() {
     return (
       <>
@@ -671,8 +671,15 @@ function HomeScreen({ navigation }) {
                           Projeto: {item?.projeto?.nome}
                         </Text>
 
-                        <View style={{width: '90%', backgroundColor: 'white', height: 1, padding: 1, margin: 10}}></View>
-                          
+                        <View
+                          style={{
+                            width: "90%",
+                            backgroundColor: "white",
+                            height: 1,
+                            padding: 1,
+                            margin: 10,
+                          }}
+                        ></View>
 
                         <Text
                           style={{
