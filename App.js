@@ -15,10 +15,11 @@ import DetailsUxUi from './src/pages/Details/UxUi';
 import DetailsPM from './src/pages/Details/PM';
 import ProjectsDetails from './src/pages/ProjectsDetails';
 
+import { Provider as UserContext } from './src/context/userContext'
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+export function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Login'>
@@ -35,4 +36,14 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
+}
+
+export default () => {
+  return (
+    <>
+      <UserContext>
+        <App />
+      </UserContext>
+    </>
+  )
 }

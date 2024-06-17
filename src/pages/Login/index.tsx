@@ -1,35 +1,78 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useContext } from "react";
 import {
-  Image,
   SafeAreaView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
-  StyleSheet
+  StyleSheet,
+  Alert,
+  TextInput,
 } from "react-native";
-
-
-import { Container, ContainerInputs, ContainerInputsCenter, Logo } from "./styles";
-
+import {
+  Container,
+  ContainerInputs,
+  ContainerInputsCenter,
+  Logo,
+} from "./styles";
 import Gradient from "../../components/Gradient";
 import Input from "../../components/Input";
 import PrimaryButton from "../../components/PrimaryButton";
-import img from '../../assets/Logo_transparente_branca.png'
+import img from "../../assets/Logo_transparente_branca.png";
+import useApi from "../../hooks/useApi";
+
+import { Context as UserContext } from "../../context/userContext";
 
 function Login({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const emailRef = useRef<TextInput>();
   const passwordRef = useRef<TextInput>();
 
-  async function validateLogin() {
-    //criar validação de login
+  const { setInfos, setPapel } = useContext(UserContext);
 
-    if (true) {
-      navigation.navigate("HomeScreen");
+  const apiCall = useApi({
+    method: "POST",
+    url: "https://brilliant-jamie-teamcomposer-fs-2035bd65.koyeb.app/login",
+  });
+
+  async function validateLogin() {
+    if (email.length > 0 && password.length > 0) {
+      if (
+        !email.toLocaleLowerCase().trim().includes("@alunos.utfpr.edu.br") &&
+        (!email.toLocaleLowerCase().trim().includes("@professores.utfpr.edu.br") && !email.toLocaleLowerCase().trim().includes("@professor")) 
+      ) {
+        Alert.alert(
+          "Atenção!",
+          "Email inválido, verifique se o mesmo pertence ao domínio da UTFPR."
+        );
+        return;
+      }
+
+      const response = await apiCall(
+        {},
+        {
+          email: email.trim().toLowerCase(),
+          senha: password.trim(),
+        }
+      );
+
+      if (response.status === 200) {
+        console.log(response)
+        setInfos(response.data?.user || response.data);
+        setPapel(response.data?.user?.papel || response.data.papel);
+        navigation.navigate("HomeScreen");
+      } else {
+        Alert.alert("Atenção", response.error || "Falha ao realizado o login.");
+      }
+    } else {
+      Alert.alert("Atenção!", "Preencha todos os campos.");
     }
   }
 
   async function goToSignUp() {
+    setEmail("");
+    setPassword("");
     navigation.navigate("SignUp");
   }
 
@@ -44,32 +87,37 @@ function Login({ navigation }) {
           flexDirection: "row",
           alignItems: "center",
         }}
-      >
-
-      </SafeAreaView>
+      ></SafeAreaView>
 
       <Logo source={img} />
 
       <ContainerInputs>
         <ContainerInputsCenter>
-          <Text style={{ fontSize: 36 }}>Login</Text>
           <View style={{ width: "100%" }}>
             <Input
               ref={emailRef}
               titleText="Email"
               placeHolder="aluno@alunos.utfpr.edu.br"
               keyboardType="email-address"
-              s
+              value={email}
+              onChangeText={setEmail}
+              returnKeyType="next"
+              onSubmit={() => passwordRef.current.focus()}
             />
 
             <Input
               ref={passwordRef}
               titleText="Senha"
               placeHolder="ººººººº"
-              keyboardType="password"
+              keyboardType="visible-password"
+              returnKeyType="done"
+              secureTextEntry={true}
+              value={password}
+              onChangeText={setPassword}
+              onSubmit={validateLogin}
             />
 
-            <PrimaryButton title={"Login"} fn={() => validateLogin()} />
+            <PrimaryButton title={"Login"} fn={validateLogin} />
           </View>
 
           <TouchableOpacity onPress={goToSignUp}>
@@ -83,80 +131,79 @@ function Login({ navigation }) {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DADADA',
+    backgroundColor: "#DADADA",
   },
   Titletext: {
-    color: 'black',
+    color: "black",
     paddingTop: 10,
     paddingBottom: 0,
     marginBottom: 0,
   },
   Viewlink: {
-    flexDirection: 'row', 
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     margin: 1,
     padding: 1,
   },
   links: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
   },
   description: {
-    backgroundColor: '#4A6BA0',
+    backgroundColor: "#4A6BA0",
     borderRadius: 10,
     padding: 10,
-    textAlign: 'left',
+    textAlign: "left",
     fontSize: 14,
-    maxHeight: 'auto',
+    maxHeight: "auto",
     marginVertical: 10,
-    color: '#000',
+    color: "#000",
   },
   descriptionText: {
-    color: '#fff',
-    textAlign: 'justify',
+    color: "#fff",
+    textAlign: "justify",
     fontSize: 17,
   },
   description2: {
-    backgroundColor: '#a2a7a5',
-    flexDirection: 'column', // Corrigido de 'collunm' para 'column'
+    backgroundColor: "#a2a7a5",
+    flexDirection: "column",
     borderRadius: 10,
     padding: 10,
-    textAlign: 'left',
+    textAlign: "left",
     fontSize: 14,
-    maxHeight: 'auto',
+    maxHeight: "auto",
     marginVertical: 10,
-    color: '#000',
+    color: "#000",
   },
-  
+
   descriptionText2: {
-    color: '#000',
-    textAlign: 'justify',
+    color: "#000",
+    textAlign: "justify",
     fontSize: 17,
     padding: 1,
   },
   linkButton: {
-    backgroundColor: '#a2a7a5',
+    backgroundColor: "#a2a7a5",
     borderRadius: 10,
     padding: 0,
-    alignItems: 'center',
+    alignItems: "center",
     marginVertical: 5,
   },
   linkButtonText: {
-    color: '#0075FF',
+    color: "#0075FF",
     fontSize: 17,
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
   imageTop: {
     borderRadius: 10,
-    width: '95%',
+    width: "95%",
     height: 150,
     marginTop: -150,
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 });
 

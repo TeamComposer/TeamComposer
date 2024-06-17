@@ -16,6 +16,7 @@ function ProjectsDetails({ navigation }) {
       console.error("Erro ao abrir o link:", error);
     }
   };
+  
 
   return (
     <Container style={styles.container}>

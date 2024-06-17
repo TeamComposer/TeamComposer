@@ -91,7 +91,7 @@ export default function TabBar() {
       initialRouteName="Home"
       screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="ProjectsDetails"
         component={ProjectsDetails}
         options={{
@@ -102,7 +102,7 @@ export default function TabBar() {
 
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Home"
         component={HomeScreen}

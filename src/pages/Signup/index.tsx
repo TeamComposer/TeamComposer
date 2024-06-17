@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import React, { useRef, useState } from "react";
+import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 // import Icon from "react-native-ionicons";
 
 import { Container, ContainerInputs, ContainerInputsCenter } from "./styles";
@@ -8,6 +8,7 @@ import Gradient from "../../components/Gradient";
 import Input from "../../components/Input";
 import PrimaryButton from "../../components/PrimaryButton";
 import { SafeAreaView } from "react-native-safe-area-context";
+import useApi from "../../hooks/useApi";
 
 function SignUp({ navigation }) {
   const name = useRef<TextInput>();
@@ -15,13 +16,74 @@ function SignUp({ navigation }) {
   const emailRef = useRef<TextInput>();
   const passwordRef = useRef<TextInput>();
   const passwordConfirmRef = useRef<TextInput>();
+  const periodRef = useRef<TextInput>();
+
+  const [nome, setNome] = useState("");
+  const [sobrenome, setSobrenome] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [periodo, setPeriodo] = useState(0);
+
+  const apiCall = useApi({
+    method: "POST",
+    url: "https://brilliant-jamie-teamcomposer-fs-2035bd65.koyeb.app/cadastro/cadastroUser",
+  });
 
   async function validateFields() {
     //criar validação de login
 
-    if (true) {
-      navigation.navigate("HomeScreen");
+    if (
+      !nome.length ||
+      !sobrenome.length ||
+      !email.length ||
+      !password.length ||
+      !passwordConfirm.length ||
+      !periodo
+    ) {
+      Alert.alert("Atenção!", "Preencha todos os campos.");
+      return;
     }
+    if (
+      !email.toLocaleLowerCase().trim().includes("@alunos.utfpr.edu.br") &&
+      !email.toLocaleLowerCase().trim().includes("@professores.utfpr.edu.br")
+    ) {
+      Alert.alert(
+        "Atenção!",
+        "Email inválido, verifique se o mesmo pertence ao domínio da UTFPR."
+      );
+      return;
+    }
+
+    if (passwordConfirm !== password) {
+      Alert.alert("Atenção!", "As senhas informadas não são iguais.");
+      return;
+    }
+
+    const response = await apiCall(
+      {},
+      {
+        primeiroNome: nome.trim(),
+        sobrenome: sobrenome.trim(),
+        email: email.trim().toLowerCase(),
+        periodo: periodo,
+        senha: password.trim(),
+      }
+    );
+
+    if (response.status === 200) {
+      Alert.alert("Atenção!", "Cadastro realizado com sucesso!");
+      navigation.goBack();
+    } else {
+      Alert.alert(
+        "Atenção!",
+        response.error || "Falha ao realizar o cadastro."
+      );
+    }
+
+    // if (true) {
+    //   navigation.navigate("HomeScreen");
+    // }
   }
 
   async function goToSignIn() {
@@ -52,15 +114,22 @@ function SignUp({ navigation }) {
                 ref={name}
                 titleText="Primeiro nome"
                 placeHolder="Nivaldo"
-                keyboardType="email-address"
-                s
+                keyboardType="default"
+                value={nome}
+                onChangeText={setNome}
+                returnKeyType="next"
+                onSubmit={() => surname.current.focus()}
               />
+
               <Input
                 ref={surname}
                 titleText="Sobrenome"
                 placeHolder="Batista "
-                keyboardType="email-address"
-                s
+                keyboardType="default"
+                value={sobrenome}
+                onChangeText={setSobrenome}
+                returnKeyType="next"
+                onSubmit={() => emailRef.current.focus()}
               />
 
               <Input
@@ -68,20 +137,45 @@ function SignUp({ navigation }) {
                 titleText="Email"
                 placeHolder="aluno@alunos.utfpr.edu.br"
                 keyboardType="email-address"
-                s
+                value={email}
+                onChangeText={setEmail}
+                returnKeyType="next"
+                onSubmit={() => periodRef.current.focus()}
               />
+
+              <Input
+                ref={periodRef}
+                titleText="Periodo"
+                placeHolder="3"
+                keyboardType="number"
+                value={periodo}
+                onChangeText={setPeriodo}
+                returnKeyType="next"
+                onSubmit={() => passwordRef.current.focus()}
+              />
+
               <Input
                 ref={passwordRef}
-                titleText="Crie sua senha"
+                titleText="Senha"
                 placeHolder="ººººººº"
-                keyboardType="password"
+                keyboardType="visible-password"
+                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
+                returnKeyType="next"
+                onSubmit={() => passwordConfirmRef.current.focus()}
               />
 
               <Input
                 ref={passwordConfirmRef}
-                titleText="Confirme a senha"
+                titleText="Confirme as senha"
                 placeHolder="ººººººº"
-                keyboardType="password"
+                keyboardType="visible-password"
+                secureTextEntry={true}
+                value={passwordConfirm}
+                onChangeText={setPasswordConfirm}
+                returnKeyType="next"
+                onSubmit={() => validateFields()}
               />
 
               <PrimaryButton
