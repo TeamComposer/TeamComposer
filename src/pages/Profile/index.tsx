@@ -11,7 +11,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import styles from "./styles";
 import { Context as UserContext } from "../../context/userContext";
 
-const Profile = ({navigation}) => {
+const Profile = ({ navigation }) => {
   const { stateUser } = useContext(UserContext);
   const infoUser = stateUser.infos;
 
@@ -47,15 +47,16 @@ const Profile = ({navigation}) => {
             </Text>
           </Text>
 
-          <TouchableOpacity style={styles.profession} onPress={() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "Login" }],
-            });
-          }}>
-            <Text style={styles.bullet}>
-              Sair
-            </Text>
+          <TouchableOpacity
+            style={styles.profession}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Login" }],
+              });
+            }}
+          >
+            <Text style={styles.bullet}>Sair</Text>
           </TouchableOpacity>
         </View>
       </View>
