@@ -48,18 +48,19 @@ const styles = StyleSheet.create({
   },
   profileDetails: {
     flex: 1,
+    left: 20,
     justifyContent: 'center',
   },
   name: {
     top: 225,
-    right: 140,
+    right: 150,
     fontSize: 20,
     color: COLORS.white,
     fontWeight: 'bold',
   },
   profession: {
-    top: 220,
-    right: 120,
+    top: 225,
+    right: 150,
     fontSize: 16,
     color: COLORS.white,
     marginBottom: 5,

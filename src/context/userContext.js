@@ -2,7 +2,9 @@ import createContext from './createUserContext';
 
 const initialState = {
     infos: {},
+    infosAluno: {},
     team: {},
+    teamid: '',
     papel: 'Aluno',
 
 };
@@ -11,8 +13,12 @@ const reducer = (stateUser, action) => {
   switch (action.type) {
     case 'infos':
       return { ...stateUser, infos: action.payload };
+    case 'infosAluno':
+      return { ...stateUser, infosAluno: action.payload };
     case 'team':
       return { ...stateUser, team: action.payload };
+    case 'teamid':
+      return { ...stateUser, teamid: action.payload };
     case 'papel':
       return { ...stateUser, papel: action.payload };
     default:
@@ -26,9 +32,21 @@ const setInfos = (dispatch) => {
   };
 };
 
+const setInfosAluno = (dispatch) => {
+  return (obj) => {
+    dispatch({ type: 'infosAluno', payload: obj });
+  };
+};
+
 const setTeam = (dispatch) => {
   return (obj) => {
     dispatch({ type: 'team', payload: obj });
+  };
+};
+
+const setTeamId = (dispatch) => {
+  return (obj) => {
+    dispatch({ type: 'teamid', payload: obj });
   };
 };
 
@@ -43,7 +61,9 @@ export const { Context, Provider } = createContext(
   reducer,
   {
     setInfos,
+    setInfosAluno,
     setTeam,
+    setTeamId,
     setPapel,
   },
   initialState,

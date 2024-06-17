@@ -16,6 +16,7 @@ function useApi({ url = '', method = 'GET' }) {
                 url,
                 params: method === 'GET' ? params : {},
                 data: method !== 'GET' ? body : null,
+                timeout: 10000
             });
             return {
                 data: response.data,

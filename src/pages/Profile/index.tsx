@@ -13,8 +13,8 @@ import { Context as UserContext } from "../../context/userContext";
 
 const Profile = () => {
   const { stateUser } = useContext(UserContext);
-
   const infoUser = stateUser.infos; 
+  
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.backgroundWrapper}>
@@ -37,17 +37,10 @@ const Profile = () => {
             {infoUser.primeiroNome + " " + infoUser.sobrenome}{" "}
           </Text>
           <Text style={styles.profession}>
-            <Text style={styles.bullet}>• {stateUser.papel === 'Professor' ? 'Professor'  : stateUser.team?.nome ? stateUser.team.nome : 'Sem time'}</Text>
+            <Text style={styles.bullet}>• {stateUser.papel === 'Professor' ? 'Professor'  : stateUser.team?.nome ? stateUser.team.nome +' - '+ stateUser.infosAluno.funcao : 'Sem time'}</Text>
           </Text>
         </View>
-        <TouchableOpacity
-          style={styles.menuButton}
-          onPress={() => {
-            /* Função a ser executada quando o botão é pressionado */
-          }}
-        >
-          <MaterialIcons name="more-vert" size={30} color="white" />
-        </TouchableOpacity>
+        
       </View>
     </ScrollView>
   );
