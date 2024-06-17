@@ -661,6 +661,25 @@ function HomeScreen({ navigation }) {
                         >
                           {item?.nome}
                         </Text>
+                        <Text
+                          style={{
+                            color: "white",
+                            fontSize: "16px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Projeto: {item?.projeto?.nome}
+                        </Text>
+
+                        <View
+                          style={{
+                            width: "90%",
+                            backgroundColor: "white",
+                            height: 1,
+                            padding: 1,
+                            margin: 10,
+                          }}
+                        ></View>
 
                         <Text
                           style={{
@@ -671,7 +690,6 @@ function HomeScreen({ navigation }) {
                         >
                           {"Qtde. membros: " + item?.membros.length}
                         </Text>
-
                         <Text
                           style={{
                             color: "white",

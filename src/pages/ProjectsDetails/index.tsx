@@ -15,7 +15,7 @@ import { useRoute } from "@react-navigation/native";
 
 function ProjectsDetails({ navigation }) {
   const route = useRoute();
-  console.log(route);
+  
   const handleOpenLink = async () => {
     const url = "https://www.example.com"; // URL do link externo
     try {
