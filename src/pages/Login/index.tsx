@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Alert,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import {
   Container,
@@ -23,8 +24,9 @@ import useApi from "../../hooks/useApi";
 import { Context as UserContext } from "../../context/userContext";
 
 function Login({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("guib@alunos.utfpr.edu.br");
+  const [password, setPassword] = useState("12345");
+  const [loading, setLoading] = useState(false);
 
   const emailRef = useRef<TextInput>();
   const passwordRef = useRef<TextInput>();
@@ -33,40 +35,60 @@ function Login({ navigation }) {
 
   const apiCall = useApi({
     method: "POST",
-    url: "https://brilliant-jamie-teamcomposer-fs-2035bd65.koyeb.app/login",
+    url: "/login",
   });
 
   async function validateLogin() {
-    if (email.length > 0 && password.length > 0) {
-      if (
-        !email.toLocaleLowerCase().trim().includes("@alunos.utfpr.edu.br") &&
-        (!email.toLocaleLowerCase().trim().includes("@professores.utfpr.edu.br") && !email.toLocaleLowerCase().trim().includes("@professor")) 
-      ) {
-        Alert.alert(
-          "Atenção!",
-          "Email inválido, verifique se o mesmo pertence ao domínio da UTFPR."
-        );
-        return;
-      }
-
-      const response = await apiCall(
-        {},
-        {
-          email: email.trim().toLowerCase(),
-          senha: password.trim(),
+    try {
+      setLoading(true);
+      if (email.length > 0 && password.length > 0) {
+        if (
+          !email.toLocaleLowerCase().trim().includes("@alunos.utfpr.edu.br") &&
+          !email
+            .toLocaleLowerCase()
+            .trim()
+            .includes("@professores.utfpr.edu.br") &&
+          !email.toLocaleLowerCase().trim().includes("@professor")
+        ) {
+          Alert.alert(
+            "Atenção!",
+            "Email inválido, verifique se o mesmo pertence ao domínio da UTFPR."
+          );
+          return;
         }
-      );
 
-      if (response.status === 200) {
-        console.log(response)
-        setInfos(response.data?.user || response.data);
-        setPapel(response.data?.user?.papel || response.data.papel);
-        navigation.navigate("HomeScreen");
+        const response = await apiCall(
+          {},
+          {
+            email: email.trim().toLowerCase(),
+            senha: password.trim(),
+          }
+        );
+
+        if (response.status === 200) {
+          if (response.data?.aluno._id && !response.data?.aluno?.time) {
+            Alert.alert(
+              "Atenção!",
+              "Os times estão endo montados e balanceados, aguarde o aviso do professor responsável e tente realizar o login novamente!"
+            );
+          } else {
+            setInfos(response.data?.user || response.data);
+            setPapel(response.data?.user?.papel || response.data.papel);
+            navigation.navigate("HomeScreen");
+          }
+        } else {
+          Alert.alert(
+            "Atenção",
+            response.error || "Falha ao realizar o login."
+          );
+        }
       } else {
-        Alert.alert("Atenção", response.error || "Falha ao realizado o login.");
+        Alert.alert("Atenção!", "Preencha todos os campos.");
       }
-    } else {
-      Alert.alert("Atenção!", "Preencha todos os campos.");
+    } catch (e) {
+      Alert.alert("Atenção", "Falha ao realizar o login: " + e);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -117,7 +139,11 @@ function Login({ navigation }) {
               onSubmit={validateLogin}
             />
 
-            <PrimaryButton title={"Login"} fn={validateLogin} />
+            {loading ? (
+              <ActivityIndicator size={26} />
+            ) : (
+              <PrimaryButton title={"Login"} fn={validateLogin} />
+            )}
           </View>
 
           <TouchableOpacity onPress={goToSignUp}>

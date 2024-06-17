@@ -1,19 +1,64 @@
-import React from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import React, { useContext, useState } from "react";
+import { Alert, ScrollView, TouchableOpacity, View } from "react-native";
 
-import { Container, TextTitle, SubTitle, TextOptions, Input,  ImageTop } from "./styles";
+import {
+  Container,
+  TextTitle,
+  SubTitle,
+  TextOptions,
+  Input,
+  ImageTop,
+} from "./styles";
 import Gradient from "../../components/Gradient";
 import CustomDropDown from "../../components/CustomDropDown";
 import PrimaryButton from "../../components/PrimaryButton";
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Ionicons from "@expo/vector-icons/Ionicons";
+import useApi from "../../hooks/useApi";
+import { Context as UserContext } from "../../context/userContext";
 
 function DetailsUxUi({ navigation }) {
+  const [selected, setSelectedLocal] = useState();
+  const { stateUser, setTeams } = useContext(UserContext);
+
+  const apiCall = useApi({
+    method: "POST",
+    url: "/cadastro/cadastroAluno",
+  });
+
+  async function candidatarUsuario() {
+    try {
+      const response = await apiCall(
+        {},
+        {
+          userId: stateUser.infos._id,
+          funcao: "UX/UI",
+          nivel: selected,
+        }
+      );
+
+      if (response.status === 200) {
+        Alert.alert(
+          "Atenção!",
+          "Os times estão endo montados e balanceados, aguarde o aviso do professor responsável e tente realizar o login novamente!"
+        );
+        navigation.navigate("Login");
+      } else {
+        Alert.alert(
+          "Atenção!",
+          response.error || "Falha ao candidatar-se ao times."
+        );
+      }
+    } catch (e) {
+      Alert.alert("Atenção!", e);
+    }
+  }
+
   return (
     <>
       <Container>
         {/* <Gradient /> */}
         <ScrollView>
-        <TouchableOpacity
+          <TouchableOpacity
             style={{
               alignItems: "center",
               marginTop: 8,
@@ -32,7 +77,7 @@ function DetailsUxUi({ navigation }) {
 
           <ImageTop
             source={{
-              uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEJnc4GsP8tpwxfJawcN9nee5z4n2T43-T5Q&s"
+              uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEJnc4GsP8tpwxfJawcN9nee5z4n2T43-T5Q&s",
             }}
           />
 
@@ -62,30 +107,34 @@ function DetailsUxUi({ navigation }) {
                 º Conhecimento em design centrado no usuário (UX/UI)
               </TextOptions>
               <TextOptions>
-                º Habilidade em ferramentas de design (por exemplo, Adobe XD, Sketch, Figma)
+                º Habilidade em ferramentas de design (por exemplo, Adobe XD,
+                Sketch, Figma)
               </TextOptions>
-              <TextOptions>º Capacidade de colaborar com equipes de desenvolvimento e front end</TextOptions>
+              <TextOptions>
+                º Capacidade de colaborar com equipes de desenvolvimento e front
+                end
+              </TextOptions>
               <TextOptions>
                 º Experiência em testes de usabilidade e feedback do usuário
               </TextOptions>
               <TextOptions>
                 º Boas habilidades de comunicação e pesquisa de usuário
-
               </TextOptions>
             </View>
 
             <TextTitle>Qual a sua senioridade?</TextTitle>
-            <CustomDropDown placeholder={"FIGMA"} />
-            <CustomDropDown placeholder={"ADOBE XD"} />
-            <CustomDropDown placeholder={"INVISION"} />
-            <CustomDropDown placeholder={"SKETCH"} />
-            <CustomDropDown placeholder={"PROTO.IO"} />
-            <CustomDropDown placeholder={"ADOBE ILUSTRATOR"} />
+            <CustomDropDown
+              placeholder={"Selecione"}
+              setSelected={setSelectedLocal}
+            />
 
             <TextTitle>Possui mais alguma habilidade?</TextTitle>
             <Input placeholder="Descreva-as" multiline={true} />
 
-            <PrimaryButton title={"Me candidatar"} fn={() => {}} />
+            <PrimaryButton
+              title={"Me candidatar"}
+              fn={() => candidatarUsuario()}
+            />
           </View>
         </ScrollView>
       </Container>

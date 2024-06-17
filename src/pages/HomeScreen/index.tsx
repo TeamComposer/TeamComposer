@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, Alert, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, RefreshControl, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import DialogInput from "react-native-dialog-input";
 
@@ -22,16 +22,20 @@ function HomeScreen({ navigation }) {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showInput, setShowInput] = useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
 
+  const onRefresh = React.useCallback(() => {
+    getTeams();
+  }, []);
 
   const apiCall = useApi({
     method: "GET",
-    url: "https://brilliant-jamie-teamcomposer-fs-2035bd65.koyeb.app/teams",
+    url: "/teams",
   });
 
   const apiCallCreateTeam = useApi({
     method: "POST",
-    url: "https://brilliant-jamie-teamcomposer-fs-2035bd65.koyeb.app/teams",
+    url: "/teams",
   });
 
   const optionsList = [
@@ -216,6 +220,9 @@ function HomeScreen({ navigation }) {
 
                 <FlatList
                   data={teams}
+                  refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                  }
                   keyExtractor={(item) => item.id}
                   style={{
                     marginBottom: 120,

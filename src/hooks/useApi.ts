@@ -8,6 +8,7 @@ type returnApi = {
 }
 
 function useApi({ url = '', method = 'GET' }) {
+     url = String('https://brilliant-jamie-teamcomposer-fs-2035bd65.koyeb.app' + url);
     const apiCall = async (params = {}, body = {}): Promise<returnApi> => {
         try {
             const response: AxiosResponse = await axios({

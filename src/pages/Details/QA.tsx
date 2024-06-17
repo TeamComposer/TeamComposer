@@ -1,13 +1,50 @@
-import React from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import React, { useContext, useState } from "react";
+import { Alert, ScrollView, TouchableOpacity, View } from "react-native";
 
 import { Container, TextTitle, SubTitle, TextOptions, Input,  ImageTop } from "./styles";
 import Gradient from "../../components/Gradient";
 import CustomDropDown from "../../components/CustomDropDown";
 import PrimaryButton from "../../components/PrimaryButton";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { Context as UserContext } from "../../context/userContext";
+import useApi from "../../hooks/useApi";
 
 function DetailsQA({ navigation }) {
+  const [selected, setSelectedLocal] = useState();
+  const { stateUser, setTeams } = useContext(UserContext);
+
+  const apiCall = useApi({
+    method: "POST",
+    url: "/cadastro/cadastroAluno",
+  });
+
+  async function candidatarUsuario() {
+    try {
+      const response = await apiCall(
+        {},
+        {
+          userId: stateUser.infos._id,
+          funcao: "UX/UI",
+          nivel: selected,
+        }
+      );
+
+      if (response.status === 200) {
+        Alert.alert(
+          "Atenção!",
+          "Os times estão endo montados e balanceados, aguarde o aviso do professor responsável e tente realizar o login novamente!"
+        );
+        navigation.navigate("Login");
+      } else {
+        Alert.alert(
+          "Atenção!",
+          response.error || "Falha ao candidatar-se ao times."
+        );
+      }
+    } catch (e) {
+      Alert.alert("Atenção!", e);
+    }
+  }
   return (
     <>
       <Container>
@@ -73,12 +110,18 @@ function DetailsQA({ navigation }) {
             </View>
 
             <TextTitle>Qual a sua senioridade?</TextTitle>
-            <CustomDropDown placeholder={"Nível de conhecimento"} />
+            <CustomDropDown
+              placeholder={"Selecione"}
+              setSelected={setSelectedLocal}
+            />
 
             <TextTitle>Possui mais alguma habilidade?</TextTitle>
             <Input placeholder="Descreva-as" multiline={true} />
 
-            <PrimaryButton title={"Me candidatar"} fn={() => {}} />
+            <PrimaryButton
+              title={"Me candidatar"}
+              fn={() => candidatarUsuario()}
+            />
           </View>
         </ScrollView>
       </Container>

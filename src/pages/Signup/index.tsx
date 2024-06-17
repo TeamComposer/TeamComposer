@@ -1,5 +1,12 @@
 import React, { useRef, useState } from "react";
-import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 // import Icon from "react-native-ionicons";
 
 import { Container, ContainerInputs, ContainerInputsCenter } from "./styles";
@@ -24,66 +31,68 @@ function SignUp({ navigation }) {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [periodo, setPeriodo] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const apiCall = useApi({
     method: "POST",
-    url: "https://brilliant-jamie-teamcomposer-fs-2035bd65.koyeb.app/cadastro/cadastroUser",
+    url: "/cadastro/cadastroUser",
   });
 
   async function validateFields() {
-    //criar validação de login
-
-    if (
-      !nome.length ||
-      !sobrenome.length ||
-      !email.length ||
-      !password.length ||
-      !passwordConfirm.length ||
-      !periodo
-    ) {
-      Alert.alert("Atenção!", "Preencha todos os campos.");
-      return;
-    }
-    if (
-      !email.toLocaleLowerCase().trim().includes("@alunos.utfpr.edu.br") &&
-      !email.toLocaleLowerCase().trim().includes("@professores.utfpr.edu.br")
-    ) {
-      Alert.alert(
-        "Atenção!",
-        "Email inválido, verifique se o mesmo pertence ao domínio da UTFPR."
-      );
-      return;
-    }
-
-    if (passwordConfirm !== password) {
-      Alert.alert("Atenção!", "As senhas informadas não são iguais.");
-      return;
-    }
-
-    const response = await apiCall(
-      {},
-      {
-        primeiroNome: nome.trim(),
-        sobrenome: sobrenome.trim(),
-        email: email.trim().toLowerCase(),
-        periodo: periodo,
-        senha: password.trim(),
+    try {
+      setLoading(true);
+      if (
+        !nome.length ||
+        !sobrenome.length ||
+        !email.length ||
+        !password.length ||
+        !passwordConfirm.length ||
+        !periodo
+      ) {
+        Alert.alert("Atenção!", "Preencha todos os campos.");
+        return;
       }
-    );
+      if (
+        !email.toLocaleLowerCase().trim().includes("@alunos.utfpr.edu.br") &&
+        !email.toLocaleLowerCase().trim().includes("@professores.utfpr.edu.br")
+      ) {
+        Alert.alert(
+          "Atenção!",
+          "Email inválido, verifique se o mesmo pertence ao domínio da UTFPR."
+        );
+        return;
+      }
 
-    if (response.status === 200) {
-      Alert.alert("Atenção!", "Cadastro realizado com sucesso!");
-      navigation.goBack();
-    } else {
-      Alert.alert(
-        "Atenção!",
-        response.error || "Falha ao realizar o cadastro."
+      if (passwordConfirm !== password) {
+        Alert.alert("Atenção!", "As senhas informadas não são iguais.");
+        return;
+      }
+
+      const response = await apiCall(
+        {},
+        {
+          primeiroNome: nome.trim(),
+          sobrenome: sobrenome.trim(),
+          email: email.trim().toLowerCase(),
+          periodo: periodo,
+          senha: password.trim(),
+        }
       );
-    }
 
-    // if (true) {
-    //   navigation.navigate("HomeScreen");
-    // }
+      if (response.status === 200) {
+        Alert.alert("Atenção!", "Cadastro realizado com sucesso!");
+        navigation.goBack();
+      } else {
+        Alert.alert(
+          "Atenção!",
+          response.error || "Falha ao realizar o cadastro."
+        );
+      }
+    } catch (e) {
+      Alert.alert("Atenção", "Falha ao realizar o cadastro: " + e);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function goToSignIn() {
@@ -178,10 +187,11 @@ function SignUp({ navigation }) {
                 onSubmit={() => validateFields()}
               />
 
-              <PrimaryButton
-                title={"Cadastre-se"}
-                fn={() => validateFields()}
-              />
+              {loading ? (
+                <ActivityIndicator size={26} />
+              ) : (
+                <PrimaryButton title={"Login"} fn={validateFields} />
+              )}
             </View>
 
             <TouchableOpacity onPress={goToSignIn}>

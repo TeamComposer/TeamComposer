@@ -34,19 +34,7 @@ const Profile = () => {
           style={styles.profileImage}
         />
         <View style={styles.profileDetails}>
-          <View style={styles.stars}>
-            {Array(5)
-              .fill(null)
-              .map((_, index) => (
-                <FontAwesome
-                  key={index}
-                  name="star"
-                  size={20}
-                  color="#FFD700"
-                  style={styles.star}
-                />
-              ))}
-          </View>
+        
         </View>
         <TouchableOpacity
           style={styles.menuButton}
@@ -66,18 +54,7 @@ const Profile = () => {
         </Text>
       </View>
       <View style={styles.footer}>
-        <View style={styles.body}>
-          <Text style={styles.description}>
-            Olá! Sou a {infoUser.primeiroNome + " " + infoUser.sobrenome}, estudante do 6º período de Engenharia de
-            Software e profissional de UX/UI. Estou sempre em busca de novos
-            desafios e oportunidades para aprimorar minhas habilidades. Com uma
-            paixão pela experiência do usuário e um background técnico sólido,
-            estou animada para aplicar meus conhecimentos em projetos criativos
-            e inovadores. Estou aberta a colaborações e pronta para contribuir
-            para o sucesso de projetos de desenvolvimento de software. Vamos
-            criar experiências incríveis juntos!
-          </Text>
-        </View>
+    
         <View style={styles.socialContainer}>
           <TouchableOpacity
             style={styles.socialButton}

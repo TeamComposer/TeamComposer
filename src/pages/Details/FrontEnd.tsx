@@ -1,5 +1,5 @@
-import React from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import React, { useContext, useState } from "react";
+import { Alert, ScrollView, TouchableOpacity, View } from "react-native";
 
 import {
   Container,
@@ -13,8 +13,45 @@ import Gradient from "../../components/Gradient";
 import CustomDropDown from "../../components/CustomDropDown";
 import PrimaryButton from "../../components/PrimaryButton";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import useApi from "../../hooks/useApi";
+import { Context as UserContext } from "../../context/userContext";
 
 function DetailsFrontEnd({ navigation }) {
+  const [selected, setSelectedLocal] = useState();
+  const { stateUser, setTeams } = useContext(UserContext);
+
+  const apiCall = useApi({
+    method: "POST",
+    url: "/cadastro/cadastroAluno",
+  });
+
+  async function candidatarUsuario() {
+    try {
+      const response = await apiCall(
+        {},
+        {
+          userId: stateUser.infos._id,
+          funcao: "UX/UI",
+          nivel: selected,
+        }
+      );
+
+      if (response.status === 200) {
+        Alert.alert(
+          "Atenção!",
+          "Os times estão endo montados e balanceados, aguarde o aviso do professor responsável e tente realizar o login novamente!"
+        );
+        navigation.navigate("Login");
+      } else {
+        Alert.alert(
+          "Atenção!",
+          response.error || "Falha ao candidatar-se ao times."
+        );
+      }
+    } catch (e) {
+      Alert.alert("Atenção!", e);
+    }
+  }
   return (
     <>
       <Container>
@@ -87,18 +124,18 @@ function DetailsFrontEnd({ navigation }) {
               </TextOptions>
             </View>
 
-            <TextTitle>Qual a sua senioridade?</TextTitle>
-            <CustomDropDown placeholder={"HTML"} />
-            <CustomDropDown placeholder={"CSS"} />
-            <CustomDropDown placeholder={"JAVA SCRIPT"} />
-            <CustomDropDown placeholder={"REACT NATIVE"} />
-            <CustomDropDown placeholder={"VUE.JS"} />
-            <CustomDropDown placeholder={"ANGULAR"} />
+            <CustomDropDown
+              placeholder={"Selecione"}
+              setSelected={setSelectedLocal}
+            />
 
             <TextTitle>Possui mais alguma habilidade?</TextTitle>
             <Input placeholder="Descreva-as" multiline={true} />
 
-            <PrimaryButton title={"Me candidatar"} fn={() => {}} />
+            <PrimaryButton
+              title={"Me candidatar"}
+              fn={() => candidatarUsuario()}
+            />
           </View>
         </ScrollView>
       </Container>
