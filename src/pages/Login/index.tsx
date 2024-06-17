@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
@@ -25,19 +25,27 @@ import useApi from "../../hooks/useApi";
 import { Context as UserContext } from "../../context/userContext";
 
 function Login({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("rafael@professor.com");
+  const [password, setPassword] = useState("1234");
   const [loading, setLoading] = useState(false);
 
   const emailRef = useRef<TextInput>();
   const passwordRef = useRef<TextInput>();
 
-  const { setInfos, setPapel, setTeamId, setInfosAluno } = useContext(UserContext);
+  const { setInfos, setPapel, setTeamId, setInfosAluno } =
+    useContext(UserContext);
 
   const apiCall = useApi({
     method: "POST",
     url: "/login",
   });
+
+  useEffect(() => {
+    setTeamId("");
+    setInfos({});
+    setPapel("");
+    setInfosAluno({});
+  }, []);
 
   async function validateLogin() {
     try {
@@ -78,12 +86,18 @@ function Login({ navigation }) {
             setTeamId(response.data?.aluno?.time);
             setInfos(response.data?.user || response.data);
             setPapel(response.data?.user?.papel || response.data.papel);
-            setInfosAluno(response.data?.aluno)
-            navigation.navigate("HomeScreen");
+            setInfosAluno(response.data?.aluno);
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "HomeScreen" }],
+            });
           } else {
             setInfos(response.data?.user || response.data);
             setPapel(response.data?.user?.papel || response.data.papel);
-            navigation.navigate("HomeScreen");
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "HomeScreen" }],
+            });
           }
         } else {
           Alert.alert(

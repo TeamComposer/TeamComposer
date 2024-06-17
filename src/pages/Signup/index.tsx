@@ -190,7 +190,7 @@ function SignUp({ navigation }) {
               {loading ? (
                 <ActivityIndicator size={26} />
               ) : (
-                <PrimaryButton title={"Login"} fn={validateFields} />
+                <PrimaryButton title={"Cadastrar"} fn={validateFields} />
               )}
             </View>
 

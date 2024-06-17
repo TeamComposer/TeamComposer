@@ -260,7 +260,6 @@ function HomeScreen({ navigation }) {
     try {
       setLoading(true);
       const response = await apiCallTeamId({ id: stateUser.teamid }, {});
-      console.log(response);
       if (response.status === 200) {
         setTeam(response.data);
         setTeams(response.data);
@@ -276,6 +275,20 @@ function HomeScreen({ navigation }) {
       Alert.alert("Atenção!", e);
     } finally {
       setLoading(false);
+    }
+  }
+
+  function returnSenioridade(nivel) {
+    if (nivel === 0) {
+      return "Aprendiz";
+    } else if (nivel === 1) {
+      return "Júnior";
+    } else if (nivel === 2) {
+      return "Pleno";
+    } else if (nivel === 3) {
+      return "Senior";
+    } else {
+      return "Aprendiz";
     }
   }
 
@@ -314,6 +327,28 @@ function HomeScreen({ navigation }) {
             ) : (
               <>
                 <ContainerOptions>
+                  <View
+                    style={{
+                      width: "100%",
+                      height: 52,
+                      backgroundColor: "#2C4060",
+                      marginBottom: 16,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: 12,
+                      borderRadius: 12,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 24,
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {stateUser.team.nome}
+                    </Text>
+                  </View>
                   <FlatList
                     data={stateUser.team.membros}
                     refreshControl={
@@ -322,13 +357,13 @@ function HomeScreen({ navigation }) {
                         onRefresh={onRefresh}
                       />
                     }
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item._id}
                     style={{
                       marginBottom: 40,
                     }}
                     renderItem={({ item }) => (
                       <>
-                        <OptionsProfessor>
+                        <OptionsProfessor onPress={() => {}}>
                           <Text
                             style={{
                               color: "white",
@@ -336,7 +371,21 @@ function HomeScreen({ navigation }) {
                               fontWeight: "bold",
                             }}
                           >
-                            {item?._id}
+                            {item?.aluno.userId.primeiroNome +
+                              " " +
+                              item?.aluno.userId.sobrenome}
+                          </Text>
+
+                          <Text
+                            style={{
+                              color: "white",
+                              fontSize: "16px",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {item?.aluno.funcao +
+                              " - " +
+                              returnSenioridade(item?.aluno.nivel)}
                           </Text>
                         </OptionsProfessor>
                       </>
@@ -362,7 +411,7 @@ function HomeScreen({ navigation }) {
                 }}
                 data={optionsList}
                 numColumns={2}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => String(item.id)}
                 renderItem={({ item }) => (
                   <>
                     <Options
@@ -451,7 +500,7 @@ function HomeScreen({ navigation }) {
                       onRefresh={onRefresh}
                     />
                   }
-                  keyExtractor={(item) => item.id}
+                  keyExtractor={(item) => item._id}
                   style={{
                     marginBottom: 120,
                   }}

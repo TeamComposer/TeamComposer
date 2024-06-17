@@ -11,10 +11,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 import styles from "./styles";
 import { Context as UserContext } from "../../context/userContext";
 
-const Profile = () => {
+const Profile = ({navigation}) => {
   const { stateUser } = useContext(UserContext);
-  const infoUser = stateUser.infos; 
-  
+  const infoUser = stateUser.infos;
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.backgroundWrapper}>
@@ -37,10 +37,27 @@ const Profile = () => {
             {infoUser.primeiroNome + " " + infoUser.sobrenome}{" "}
           </Text>
           <Text style={styles.profession}>
-            <Text style={styles.bullet}>• {stateUser.papel === 'Professor' ? 'Professor'  : stateUser.team?.nome ? stateUser.team.nome +' - '+ stateUser.infosAluno.funcao : 'Sem time'}</Text>
+            <Text style={styles.bullet}>
+              •{" "}
+              {stateUser.papel === "Professor"
+                ? "Professor"
+                : stateUser.team?.nome
+                ? stateUser.team.nome + " - " + stateUser.infosAluno.funcao
+                : "Sem time"}
+            </Text>
           </Text>
+
+          <TouchableOpacity style={styles.profession} onPress={() => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "Login" }],
+            });
+          }}>
+            <Text style={styles.bullet}>
+              Sair
+            </Text>
+          </TouchableOpacity>
         </View>
-        
       </View>
     </ScrollView>
   );

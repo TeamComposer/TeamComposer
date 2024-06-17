@@ -52,14 +52,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   name: {
-    top: 225,
+    top: 250,
     right: 150,
     fontSize: 20,
     color: COLORS.white,
     fontWeight: 'bold',
   },
   profession: {
-    top: 225,
+    top: 250,
     right: 150,
     fontSize: 16,
     color: COLORS.white,
