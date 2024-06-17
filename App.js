@@ -14,6 +14,7 @@ import DetailsFullStack from './src/pages/Details/FullStack';
 import DetailsUxUi from './src/pages/Details/UxUi';
 import DetailsPM from './src/pages/Details/PM';
 import ProjectsDetails from './src/pages/ProjectsDetails';
+import TeamDetails from './src/pages/TeamDetails';
 
 import { Provider as UserContext } from './src/context/userContext'
 
@@ -33,6 +34,7 @@ export function App() {
         <Stack.Screen name="DetailsUxUi" component={DetailsUxUi} />
         <Stack.Screen name="DetailsPM" component={DetailsPM} />
         <Stack.Screen name="ProjectsDetails" component={ProjectsDetails} />
+        <Stack.Screen name="TeamDetails" component={TeamDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );

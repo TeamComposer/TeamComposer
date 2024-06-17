@@ -31,7 +31,7 @@ function DetailsFullStack({ navigation }) {
         {},
         {
           userId: stateUser.infos._id,
-          funcao: "UX/UI",
+          funcao: "FullStack",
           nivel: selected,
         }
       );

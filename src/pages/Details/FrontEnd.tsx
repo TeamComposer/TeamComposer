@@ -31,7 +31,7 @@ function DetailsFrontEnd({ navigation }) {
         {},
         {
           userId: stateUser.infos._id,
-          funcao: "UX/UI",
+          funcao: "Frontend",
           nivel: selected,
         }
       );

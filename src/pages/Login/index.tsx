@@ -24,8 +24,8 @@ import useApi from "../../hooks/useApi";
 import { Context as UserContext } from "../../context/userContext";
 
 function Login({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("rafael@professor.com");
+  const [password, setPassword] = useState("1234");
   const [loading, setLoading] = useState(false);
 
   const emailRef = useRef<TextInput>();
@@ -66,7 +66,7 @@ function Login({ navigation }) {
         );
 
         if (response.status === 200) {
-          if (response.data?.aluno._id && !response.data?.aluno?.time) {
+          if (response.data?.aluno?._id && !response.data?.aluno?.time) {
             Alert.alert(
               "Atenção!",
               "Os times estão endo montados e balanceados, aguarde o aviso do professor responsável e tente realizar o login novamente!"

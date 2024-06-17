@@ -31,7 +31,7 @@ function DetailsPM({ navigation }) {
         {},
         {
           userId: stateUser.infos._id,
-          funcao: "UX/UI",
+          funcao: "PM",
           nivel: selected,
         }
       );
