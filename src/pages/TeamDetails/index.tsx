@@ -65,48 +65,6 @@ function TeamDetails({ navigation }) {
     }
   }
 
-  async function addTeam(nameTeam: string) {
-    try {
-      if (!nameTeam.length) {
-        return;
-      }
-
-      const response = await apiCallCreateTeam(
-        {},
-        {
-          nome: String(nameTeam),
-        }
-      );
-      if (response.status === 200 || response.status === 201 || response.data) {
-        getMembros();
-      } else {
-        Alert.alert(
-          "Atenção",
-          String(response.status) +
-            String(response.error || " Falha ao cadastrar o novo time.")
-        );
-      }
-      setShowInput(false);
-    } catch (e) {
-      Alert.alert("Atenção", String(" Falha ao cadastrar o novo time: " + e));
-      setShowInput(false);
-    }
-  }
-
-  function formatarData(dataISO) {
-    const data = new Date(dataISO);
-
-    const padZero = (num) => num.toString().padStart(2, "0");
-
-    const dia = padZero(data.getUTCDate());
-    const mes = padZero(data.getUTCMonth() + 1); // Os meses são indexados a partir de 0
-    const ano = data.getUTCFullYear();
-    const horas = padZero(data.getUTCHours());
-    const minutos = padZero(data.getUTCMinutes());
-
-    return `${dia}/${mes}/${ano} - ${horas}:${minutos}`;
-  }
-
   useEffect(() => {
     getMembros();
   }, []);

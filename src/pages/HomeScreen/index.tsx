@@ -22,7 +22,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { Context as UserContext } from "../../context/userContext";
 
 function HomeScreen({ navigation }) {
-  const { stateUser } = useContext(UserContext);
+  const { stateUser, setTeam } = useContext(UserContext);
   const typeUser = stateUser.papel;
 
   const [teams, setTeams] = useState([]);
@@ -32,7 +32,11 @@ function HomeScreen({ navigation }) {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
-    getTeams();
+    if (typeUser === "Professor") {
+      getTeams();
+    } else if (stateUser.teamid) {
+      getTeamsId();
+    }
   }, []);
 
   const apiCallTeamCompostion = useApi({
@@ -48,6 +52,11 @@ function HomeScreen({ navigation }) {
   const apiCall = useApi({
     method: "GET",
     url: "/teams",
+  });
+
+  const apiCallTeamId = useApi({
+    method: "GET",
+    url: `/teams/${stateUser.teamid}`,
   });
 
   const apiCallCreateTeam = useApi({
@@ -247,49 +256,135 @@ function HomeScreen({ navigation }) {
     }
   }
 
+  async function getTeamsId() {
+    try {
+      setLoading(true);
+      const response = await apiCallTeamId({ id: stateUser.teamid }, {});
+      console.log(response);
+      if (response.status === 200) {
+        setTeam(response.data);
+        setTeams(response.data);
+        setError(false);
+      } else {
+        setError(true);
+        Alert.alert(
+          "Atenção",
+          response.error || "Falha ao consultar o seu time."
+        );
+      }
+    } catch (e) {
+      Alert.alert("Atenção!", e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     if (typeUser === "Professor") {
       getTeams();
+    } else if (stateUser.teamid) {
+      getTeamsId();
     }
-  }, []);
+  }, [stateUser.teamid]);
 
   function renderAlunoScreen() {
-    return (
-      <>
-        <Container>
-          <Text style={{ fontSize: 24 }}>Escolha sua função</Text>
-          <ContainerOptions>
-            <FlatList
-              columnWrapperStyle={{
-                flex: 1,
-                justifyContent: "space-around",
-                marginBottom: 20,
-              }}
-              data={optionsList}
-              numColumns={2}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <>
-                  <Options
-                    onPress={() => navigation.navigate(`${item.screen}`)}
-                  >
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: "26px",
-                        fontWeight: "bold",
-                      }}
+    if (stateUser.teamid) {
+      return (
+        <>
+          <Container>
+            <Text style={{ fontSize: 24 }}>
+              Bem vindo, {stateUser.infos.primeiroNome}
+            </Text>
+
+            {loading ? (
+              <>
+                <View
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                  }}
+                >
+                  <ActivityIndicator size={26} />
+                  <Text style={{ fontSize: 24, marginBottom: 8 }}>
+                    Buscando times, aguarde...
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <>
+                <ContainerOptions>
+                  <FlatList
+                    data={stateUser.team.membros}
+                    refreshControl={
+                      <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                      />
+                    }
+                    keyExtractor={(item) => item.id}
+                    style={{
+                      marginBottom: 40,
+                    }}
+                    renderItem={({ item }) => (
+                      <>
+                        <OptionsProfessor>
+                          <Text
+                            style={{
+                              color: "white",
+                              fontSize: "26px",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {item?._id}
+                          </Text>
+                        </OptionsProfessor>
+                      </>
+                    )}
+                  />
+                </ContainerOptions>
+              </>
+            )}
+          </Container>
+        </>
+      );
+    } else
+      return (
+        <>
+          <Container>
+            <Text style={{ fontSize: 24 }}>Escolha sua função</Text>
+            <ContainerOptions>
+              <FlatList
+                columnWrapperStyle={{
+                  flex: 1,
+                  justifyContent: "space-around",
+                  marginBottom: 20,
+                }}
+                data={optionsList}
+                numColumns={2}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <>
+                    <Options
+                      onPress={() => navigation.navigate(`${item.screen}`)}
                     >
-                      {item?.title}
-                    </Text>
-                  </Options>
-                </>
-              )}
-            />
-          </ContainerOptions>
-        </Container>
-      </>
-    );
+                      <Text
+                        style={{
+                          color: "white",
+                          fontSize: "26px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {item?.title}
+                      </Text>
+                    </Options>
+                  </>
+                )}
+              />
+            </ContainerOptions>
+          </Container>
+        </>
+      );
   }
 
   function renderProfessorScreen() {
@@ -401,13 +496,11 @@ function HomeScreen({ navigation }) {
           </ContainerOptions>
         </Container>
 
-{
-  !loading &&
-
-        <FloatButton onPress={() => setShowInput(true)}>
-          <Ionicons name="add" color={"white"} size={26} />
-        </FloatButton>
-      }
+        {!loading && (
+          <FloatButton onPress={() => setShowInput(true)}>
+            <Ionicons name="add" color={"white"} size={26} />
+          </FloatButton>
+        )}
 
         {teams.length > 0 && !loading && (
           <FloatButton

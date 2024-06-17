@@ -8,6 +8,7 @@ import {
   Alert,
   TextInput,
   ActivityIndicator,
+  Keyboard,
 } from "react-native";
 import {
   Container,
@@ -24,14 +25,14 @@ import useApi from "../../hooks/useApi";
 import { Context as UserContext } from "../../context/userContext";
 
 function Login({ navigation }) {
-  const [email, setEmail] = useState("rafael@professor.com");
-  const [password, setPassword] = useState("1234");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const emailRef = useRef<TextInput>();
   const passwordRef = useRef<TextInput>();
 
-  const { setInfos, setPapel } = useContext(UserContext);
+  const { setInfos, setPapel, setTeamId, setInfosAluno } = useContext(UserContext);
 
   const apiCall = useApi({
     method: "POST",
@@ -57,6 +58,8 @@ function Login({ navigation }) {
           return;
         }
 
+        Keyboard.dismiss();
+
         const response = await apiCall(
           {},
           {
@@ -71,6 +74,12 @@ function Login({ navigation }) {
               "Atenção!",
               "Os times estão endo montados e balanceados, aguarde o aviso do professor responsável e tente realizar o login novamente!"
             );
+          } else if (response.data?.aluno?._id && response.data?.aluno?.time) {
+            setTeamId(response.data?.aluno?.time);
+            setInfos(response.data?.user || response.data);
+            setPapel(response.data?.user?.papel || response.data.papel);
+            setInfosAluno(response.data?.aluno)
+            navigation.navigate("HomeScreen");
           } else {
             setInfos(response.data?.user || response.data);
             setPapel(response.data?.user?.papel || response.data.papel);
