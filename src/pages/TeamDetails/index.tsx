@@ -5,6 +5,7 @@ import {
   FlatList,
   RefreshControl,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
@@ -29,6 +30,7 @@ function TeamDetails({ navigation }) {
   const route = useRoute();
   const { team } = route.params;
   const [membros, setMembros] = useState([]);
+  const [projeto, setProjeto] = useState({});
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showInput, setShowInput] = useState(false);
@@ -51,6 +53,7 @@ function TeamDetails({ navigation }) {
       const response = await apiCall();
       if (response.status === 200) {
         setMembros(response.data.membros);
+        setProjeto(response.data.projeto);
         setError(false);
       } else {
         setError(true);
@@ -90,7 +93,7 @@ function TeamDetails({ navigation }) {
         <Container>
           <ContainerOptions>
             <>
-              <View
+              <TouchableOpacity
                 style={{
                   width: "100%",
                   height: 52,
@@ -101,13 +104,23 @@ function TeamDetails({ navigation }) {
                   padding: 12,
                   borderRadius: 12,
                 }}
+                onPress={() => {
+                  navigation.navigate("ProjectsDetails", { projeto: projeto });
+                }}
               >
                 <Text
                   style={{ fontSize: 24, color: "white", fontWeight: "bold" }}
                 >
-                  {team.nome}
+                  {team?.nome}
                 </Text>
-              </View>
+                {projeto?.nome && (
+                  <Text
+                    style={{ fontSize: 16, color: "white", fontWeight: "bold" }}
+                  >
+                    {projeto?.nome}
+                  </Text>
+                )}
+              </TouchableOpacity>
 
               <FlatList
                 data={membros}
@@ -131,9 +144,9 @@ function TeamDetails({ navigation }) {
                           fontWeight: "bold",
                         }}
                       >
-                        {item?.aluno.userId.primeiroNome +
+                        {item?.aluno?.userId?.primeiroNome +
                           " " +
-                          item?.aluno.userId.sobrenome}
+                          item?.aluno?.userId?.sobrenome}
                       </Text>
 
                       <Text
@@ -143,9 +156,9 @@ function TeamDetails({ navigation }) {
                           fontWeight: "bold",
                         }}
                       >
-                        {item?.aluno.funcao +
+                        {item?.aluno?.funcao +
                           " - " +
-                          returnSenioridade(item?.aluno.nivel)}
+                          returnSenioridade(item?.aluno?.nivel)}
                       </Text>
                     </OptionsProfessor>
                   </>
@@ -154,10 +167,6 @@ function TeamDetails({ navigation }) {
             </>
           </ContainerOptions>
         </Container>
-
-        <FloatButton onPress={() => setShowInput(true)}>
-          <Ionicons name="link" color={"white"} size={26} />
-        </FloatButton>
       </>
     );
   }

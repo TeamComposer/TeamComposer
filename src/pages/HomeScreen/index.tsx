@@ -5,6 +5,7 @@ import {
   FlatList,
   RefreshControl,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -29,7 +30,11 @@ function HomeScreen({ navigation }) {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showInput, setShowInput] = useState(false);
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [showInputNewProject, setShowInputNewProject] = useState(false);
+  const [showInputDescriptionNewProject, setShowInputDescriptionNewProject] =
+    useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [newProjectData, setNewProjectData] = useState({ nome: "" });
 
   const onRefresh = React.useCallback(() => {
     if (typeUser === "Professor") {
@@ -49,6 +54,11 @@ function HomeScreen({ navigation }) {
     url: "/autoGenerate/autoGenerate",
   });
 
+  const apiCallTeamCompostionInserirProjetoGrupo = useApi({
+    method: "GET",
+    url: "/teamComposition/randomProject",
+  });
+
   const apiCall = useApi({
     method: "GET",
     url: "/teams",
@@ -62,6 +72,11 @@ function HomeScreen({ navigation }) {
   const apiCallCreateTeam = useApi({
     method: "POST",
     url: "/teams",
+  });
+
+  const apiCallCreateProject = useApi({
+    method: "POST",
+    url: "/projetos",
   });
 
   const optionsList = [
@@ -114,6 +129,102 @@ function HomeScreen({ navigation }) {
       }
     } catch (e) {
       Alert.alert("Atenção", e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function alertOpcoes() {
+    Alert.alert("Atenção!", "O que deseja fazer?", [
+      {
+        text: "Cancelar",
+      },
+      {
+        text: "Designar alunos aos times",
+        onPress: () => {
+          designarTimes();
+        },
+      },
+      {
+        text: "Designar projetos aos times",
+        onPress: () => {
+          designarProjetos();
+        },
+      },
+    ]);
+  }
+
+  async function createNewProject(descricao) {
+    try {
+      const response = await apiCallCreateProject(
+        {},
+        {
+          nome: newProjectData.nome,
+          descricao: descricao,
+        }
+      );
+
+      if (response.status === 200 || response.status === 201 || response.data) {
+        Alert.alert("Atenção", "Projeto criado com sucesso!");
+      } else {
+        Alert.alert(
+          "Atenção",
+          String(response.status) +
+            String(response.error || " Falha ao cadastrar o novo projeto.")
+        );
+      }
+      setShowInputNewProject(false);
+      setShowInputDescriptionNewProject(false);
+    } catch (e) {
+      Alert.alert(
+        "Atenção",
+        String(" Falha ao cadastrar o novo projeto: " + e)
+      );
+      setShowInputNewProject(false);
+      setShowInputDescriptionNewProject(false);
+    }
+  }
+
+  function designarProjetos() {
+    Alert.alert(
+      "Atenção!",
+      "Deseja realmente desisgnar os projetos entre os times? Essa ação não pode ser desfeita.",
+      [
+        {
+          text: "Cancelar",
+        },
+        {
+          text: "Designar",
+          onPress: () => {
+            continueDesignarProjetos();
+          },
+        },
+      ]
+    );
+  }
+
+  async function continueDesignarProjetos() {
+    try {
+      setLoading(true);
+      const response = await apiCallTeamCompostionInserirProjetoGrupo({}, {});
+
+      if (response.status === 200 || response.data) {
+        getTeams();
+      } else {
+        Alert.alert(
+          "Atenção",
+          String(response.status) +
+            String(
+              response.error || " Falha ao designar os projetos aos times."
+            )
+        );
+      }
+      setShowInput(false);
+    } catch (e) {
+      Alert.alert(
+        "Atenção",
+        String("Falha ao designar os projetos aos times: " + e)
+      );
     } finally {
       setLoading(false);
     }
@@ -292,6 +403,26 @@ function HomeScreen({ navigation }) {
     }
   }
 
+  function inputsOptions() {
+    Alert.alert("Atenção!", "O que deseja fazer?", [
+      {
+        text: "Cancelar",
+      },
+      {
+        text: "Criar time",
+        onPress: () => {
+          setShowInput(true);
+        },
+      },
+      {
+        text: "Criar projeto",
+        onPress: () => {
+          setShowInputNewProject(true);
+        },
+      },
+    ]);
+  }
+
   useEffect(() => {
     if (typeUser === "Professor") {
       getTeams();
@@ -299,7 +430,6 @@ function HomeScreen({ navigation }) {
       getTeamsId();
     }
   }, [stateUser.teamid]);
-
   function renderAlunoScreen() {
     if (stateUser.teamid) {
       return (
@@ -327,7 +457,7 @@ function HomeScreen({ navigation }) {
             ) : (
               <>
                 <ContainerOptions>
-                  <View
+                  <TouchableOpacity
                     style={{
                       width: "100%",
                       height: 52,
@@ -337,6 +467,11 @@ function HomeScreen({ navigation }) {
                       justifyContent: "center",
                       padding: 12,
                       borderRadius: 12,
+                    }}
+                    onPress={() => {
+                      navigation.navigate("ProjectsDetails", {
+                        projeto: stateUser.team.projeto,
+                      });
                     }}
                   >
                     <Text
@@ -348,7 +483,18 @@ function HomeScreen({ navigation }) {
                     >
                       {stateUser.team.nome}
                     </Text>
-                  </View>
+                    {stateUser.team.projeto.nome && (
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {stateUser.team.projeto.nome}
+                      </Text>
+                    )}
+                  </TouchableOpacity>
                   <FlatList
                     data={stateUser.team.membros}
                     refreshControl={
@@ -491,7 +637,6 @@ function HomeScreen({ navigation }) {
                     Times
                   </Text>
                 </View>
-
                 <FlatList
                   data={teams}
                   refreshControl={
@@ -546,7 +691,7 @@ function HomeScreen({ navigation }) {
         </Container>
 
         {!loading && (
-          <FloatButton onPress={() => setShowInput(true)}>
+          <FloatButton onPress={() => inputsOptions()}>
             <Ionicons name="add" color={"white"} size={26} />
           </FloatButton>
         )}
@@ -554,7 +699,7 @@ function HomeScreen({ navigation }) {
         {teams.length > 0 && !loading && (
           <FloatButton
             style={{ bottom: 78 }}
-            onPress={() => designarTimes()}
+            onPress={() => alertOpcoes()}
             onLongPress={() => (__DEV__ ? createFakeAlunos() : {})}
           >
             <Ionicons name="link" color={"white"} size={26} />
@@ -569,11 +714,49 @@ function HomeScreen({ navigation }) {
           submitText={"Cadastrar"}
           submitInput={(inputText) => {
             if (!inputText.length) return;
-
             addTeam(inputText);
           }}
           closeDialog={() => {
             setShowInput(false);
+          }}
+        ></DialogInput>
+
+        <DialogInput
+          isDialogVisible={showInputNewProject}
+          title={"Adicionar projeto - Nome"}
+          message={""}
+          hintInput={"Nome do projeto"}
+          cancelText={"Cancelar"}
+          submitText={"Cadastrar"}
+          submitInput={(inputText) => {
+            if (!inputText.length) return;
+            setNewProjectData((curr) => ({
+              ...curr,
+              nome: inputText,
+            }));
+            setShowInputNewProject(false);
+            setShowInputDescriptionNewProject(true);
+          }}
+          closeDialog={() => {
+            setNewProjectData({ nome: "" });
+            setShowInputNewProject(false);
+          }}
+        ></DialogInput>
+
+        <DialogInput
+          isDialogVisible={showInputDescriptionNewProject}
+          title={"Adicionar projeto - Descricao"}
+          message={""}
+          hintInput={"Descricao do projeto"}
+          cancelText={"Cancelar"}
+          submitText={"Cadastrar"}
+          submitInput={(inputText) => {
+            if (!inputText.length) return;
+            createNewProject(inputText);
+          }}
+          closeDialog={() => {
+            setNewProjectData({ nome: "" });
+            setShowInputDescriptionNewProject(false);
           }}
         ></DialogInput>
       </>
