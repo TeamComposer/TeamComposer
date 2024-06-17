@@ -24,7 +24,7 @@ function DetailsQA({ navigation }) {
         {},
         {
           userId: stateUser.infos._id,
-          funcao: "UX/UI",
+          funcao: "QA",
           nivel: selected,
         }
       );

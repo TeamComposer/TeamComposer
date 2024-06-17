@@ -37,7 +37,7 @@ const Profile = () => {
             {infoUser.primeiroNome + " " + infoUser.sobrenome}{" "}
           </Text>
           <Text style={styles.profession}>
-            <Text style={styles.bullet}>• </Text>{stateUser.team?.nome ? stateUser.team.nome : 'Sem time'}
+            <Text style={styles.bullet}>• {stateUser.papel === 'Professor' ? 'Professor'  : stateUser.team?.nome ? stateUser.team.nome : 'Sem time'}</Text>
           </Text>
         </View>
         <TouchableOpacity
