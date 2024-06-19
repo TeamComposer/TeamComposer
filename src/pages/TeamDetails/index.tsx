@@ -140,7 +140,7 @@ function TeamDetails({ navigation }) {
                       <Text
                         style={{
                           color: "white",
-                          fontSize: "26px",
+                          fontSize: 26,
                           fontWeight: "bold",
                         }}
                       >
@@ -152,7 +152,7 @@ function TeamDetails({ navigation }) {
                       <Text
                         style={{
                           color: "white",
-                          fontSize: "16px",
+                          fontSize: 16,
                           fontWeight: "bold",
                         }}
                       >

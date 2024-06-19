@@ -6,7 +6,10 @@ export const Container = styled.TouchableOpacity`
   height: 50px;
   align-items: center;
   justify-content: center;
-  border-radius: 20% 0% 20% 20%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 `;
 
 export const ButtonWrapper = styled.View`
